@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Button, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 
 import { useState } from 'react'
 
@@ -22,6 +22,7 @@ const Formulario = () => {
     }
 
     return (
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <SafeAreaView style={styles.screen}>
             <ScrollView style={styles.scroll}>
                 <Text style={styles.title}>Formulario</Text>
@@ -81,6 +82,7 @@ const Formulario = () => {
                 <Button title='Comprobar' onPress={() => formValido()} />
             </ScrollView>
         </SafeAreaView>
+        </TouchableWithoutFeedback>
     )
 }
 

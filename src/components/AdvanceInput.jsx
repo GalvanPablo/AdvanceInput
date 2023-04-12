@@ -1,10 +1,5 @@
-import { StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
-
-/*
-    Este componente es un input que contiene un label y advertencia de error
-    Se muestra el error cuando el input está en foco y el valor es inválido
-*/
 
 const INPUT_CHANGE = "INPUT_CHANGE";
 const INPUT_BLUR = "INPUT_BLUR";
@@ -95,6 +90,8 @@ const AdvanceInput = ({
         "none"
     )
 
+    const [inputText, setInputText] = React.useState(initialValue);
+
     const [inputState, inputDispatch] = React.useReducer(inputReducer, {
         value: initialValue,
         isValid: initiallyValid,
@@ -102,6 +99,7 @@ const AdvanceInput = ({
     });
 
     const lostFocusHandler = () => {
+        validar(inputText);
         inputDispatch({ type: INPUT_BLUR });
     }
 
@@ -117,7 +115,7 @@ const AdvanceInput = ({
     }
 
     const [errorTextDefault, setErrorTextDefault] = React.useState('');
-    const textChangeHandler = (text) => {
+    const validar = (text) => {
         let isValid = true;
         if (required && text.trim().length === 0) {
             setErrorTextDefault("Este campo es requerido");
@@ -147,6 +145,14 @@ const AdvanceInput = ({
 
         inputDispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
     }
+
+    const textChangeHandler = (text) => {
+        setInputText(text);
+    }
+
+    React.useEffect(() => {
+        validar(inputText);
+    }, [inputText])
 
     React.useEffect(() => {
         onInputChange({
