@@ -1,5 +1,7 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
+import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
+
+import { FontAwesome } from '@expo/vector-icons';
 
 const INPUT_CHANGE = "INPUT_CHANGE";
 const INPUT_BLUR = "INPUT_BLUR";
@@ -172,6 +174,8 @@ const AdvanceInput = ({
             </Text>
         </View>
     )
+    
+    const [visible, setVisible] = React.useState(true);
 
     return (
         <View style={[styles.container, containerStyle]}>
@@ -180,15 +184,23 @@ const AdvanceInput = ({
                 : (errorPosition == 'top' && <ErrorRender />)
             }
 
-            <TextInput
-                style={[styles.input, inputStyle, (!inputState.isValid && inputState.touched) && {borderColor: "red"}]}
-                value={inputState.value}
-                onChangeText={textChangeHandler}
-                onBlur={lostFocusHandler}
-                inputMode={inputMode}
-                autoCapitalize={type === "email" || type === "password" ? "none" : "sentences"}
-                {...(placeholder != null && {placeholder: placeholder})}
-            />
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={[styles.input, inputStyle, (!inputState.isValid && inputState.touched) && {borderColor: "red"}]}
+                    value={inputState.value}
+                    onChangeText={textChangeHandler}
+                    onBlur={lostFocusHandler}
+                    inputMode={inputMode}
+                    autoCapitalize={type === "email" || type === "password" ? "none" : "sentences"}
+                    {...(placeholder != null && {placeholder: placeholder})}
+                    secureTextEntry={type === "password" ? visible : false}
+                />
+                {type === "password" && 
+                    <Pressable onPress={() => setVisible(!visible)} style={styles.showPassword}>
+                        <FontAwesome name={visible ? "eye" : "eye-slash"} size={24} color="#aaa" />
+                    </Pressable>
+                }
+            </View>
 
             {errorPosition == 'bottom' && <ErrorRender />}
             
@@ -205,6 +217,15 @@ const styles = StyleSheet.create({
     },
     label: {
         marginVertical: 5,
+    },
+    inputContainer: {
+        position: "relative",
+    },
+    showPassword: {
+        position: "absolute",
+        right: 5,
+        top: 5,
+        padding: 4,
     },
     input: {
         minWidth: 150,

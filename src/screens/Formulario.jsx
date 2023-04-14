@@ -12,12 +12,13 @@ const Formulario = () => {
     const [number, setNumber] = useState(null)
     const [text, setText] = useState(null)
     const [maxMin, setMaxMin] = useState(null)
+    const [password, setPassword] = useState(null)
 
     const formValido = () => {
-        if(email.isValid && phone.isValid && number.isValid && text.isValid && maxMin.isValid) {
+        if(email.isValid && phone.isValid && number.isValid && text.isValid && maxMin.isValid && password.isValid) {
             alert('Todo correcto')
         } else {
-            alert('Algun campo no es valido')
+            alert('Uno o mas campos no son validos')
         }
     }
 
@@ -36,6 +37,7 @@ const Formulario = () => {
                         borderBottomWidth: 1,
                     }}
                 />
+
                 <AdvanceInput
                     type='phone'
                     onInputChange={(data) => setPhone(data)}
@@ -46,6 +48,7 @@ const Formulario = () => {
                         borderBottomWidth: 1,
                     }}
                 />
+
                 <AdvanceInput
                     type='number'
                     onInputChange={(data) => setNumber(data)}
@@ -57,12 +60,14 @@ const Formulario = () => {
                         borderBottomWidth: 1,
                     }}
                 />
+
                 <AdvanceInput
                     type='text'
                     onInputChange={(data) => setText(data)}
                     required
                     label={'Texto'}
                 />
+
                 <AdvanceInput
                     type='text'
                     onInputChange={(data) => {setMaxMin(data)}}
@@ -71,12 +76,25 @@ const Formulario = () => {
                     label={'Max y Min longitud'}
                 />
 
+                <AdvanceInput
+                    type='password'
+                    onInputChange={(data) => {setPassword(data)}}
+                    placeholder={'Contraseña'}
+                    errorPosition='top'
+                    inputStyle={{
+                        borderWidth: 0,
+                        borderBottomWidth: 1,
+                    }}
+                    minLength={8}
+                />
+
                 <View style={styles.valores}>
                     <Text>Email: {email?.value}</Text>
                     <Text>Telefono: {phone?.value}</Text>
                     <Text>Numero: {number?.value}</Text>
                     <Text>Texto: {text?.value}</Text>
                     <Text>MaxMin: {maxMin?.value}</Text>
+                    <Text>Password: {password?.value}</Text>
                 </View>
 
                 <Button title='Comprobar' onPress={() => formValido()} />
